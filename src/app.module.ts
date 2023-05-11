@@ -15,8 +15,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: process.env.DB_PASSWORD || 'postgres',
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USERNAME || 'postgres',
-      synchronize: true,
       entities: [`${__dirname}/**/*.entity{.js,.ts}`],
+      migrations: [`${__dirname}/migrations/{.ts,*.js}`],
+      migrationsRun: true,
     }),
     UserModule,
   ],
@@ -24,3 +25,5 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   providers: [],
 })
 export class AppModule {}
+
+// docker run --name some-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres

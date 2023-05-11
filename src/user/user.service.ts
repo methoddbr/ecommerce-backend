@@ -13,11 +13,12 @@ export class UserService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const salt0Rounds = 10;
-    const passwordHash = await hash(createUserDto.password, salt0Rounds);
+    const salt10Rounds = 10;
+    const passwordHash = await hash(createUserDto.password, salt10Rounds);
 
     return this.userRepository.save({
       ...createUserDto,
+      typeUser: 1,
       password: passwordHash,
     });
   }
