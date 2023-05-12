@@ -5,8 +5,6 @@ import { Repository } from 'typeorm';
 import { CreatedAddressDto } from './dtos/createAddress.dto';
 import { UserService } from 'src/user/user.service';
 import { CityService } from 'src/city/city.service';
-import { CreateUserDto } from 'src/user/dtos/createUser.dto';
-
 @Injectable()
 export class AddressService {
   constructor(
