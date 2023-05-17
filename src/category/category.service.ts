@@ -1,7 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CategoryEntity } from './entities/category.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateCategoryDto } from './dtos/createCategory.dto';
 
 @Injectable()
 export class CategoryService {
@@ -17,5 +22,32 @@ export class CategoryService {
       throw new NotFoundException('Categories not found');
     }
     return categories;
+  }
+
+  async createCategory(
+    createCategory: CreateCategoryDto,
+  ): Promise<CategoryEntity> {
+    const category = await this.findCategoryByName(createCategory.name).catch(
+      () => undefined,
+    );
+
+    if (category) {
+      throw new BadRequestException(
+        `Category ${createCategory.name} already exists.`,
+      );
+    }
+    return this.categoryRepository.save(createCategory);
+  }
+
+  async findCategoryByName(categoryName: string): Promise<CategoryEntity> {
+    const category = await this.categoryRepository.findOne({
+      where: {
+        name: categoryName,
+      },
+    });
+    if (!category) {
+      throw new NotFoundException(`Category ${categoryName} not found.`);
+    }
+    return category;
   }
 }
