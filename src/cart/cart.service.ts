@@ -11,7 +11,7 @@ export class CartService {
     private readonly cartRepository: Repository<CartEntity>,
   ) {}
   async verifyActiveCart(userId: number) {
-    const cart = this.cartRepository.findOne({
+    const cart = await this.cartRepository.findOne({
       where: {
         userId,
       },

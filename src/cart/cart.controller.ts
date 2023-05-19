@@ -12,7 +12,7 @@ import { InserCartDto } from './dtos/insertCart.dto';
 import { CartService } from './cart.service';
 import { UserId } from '../decorators/user-id.decoreator';
 
-@Roles(UserType.User)
+@Roles(UserType.User, UserType.Admin)
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
