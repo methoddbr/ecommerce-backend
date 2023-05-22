@@ -1,6 +1,6 @@
 import { IsNumber } from 'class-validator';
 
-export class InserCartDto {
+export class InsertCartDto {
   @IsNumber()
   productId: number;
 
