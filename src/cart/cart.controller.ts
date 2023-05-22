@@ -7,10 +7,10 @@ import {
 } from '@nestjs/common';
 import { Roles } from '../decorators/roles.decorator';
 import { UserType } from '../user/enum/enum-type.enum';
-import { CartEntity } from './entities/cart.entity';
 import { InsertCartDto } from './dtos/insertCart.dto';
 import { CartService } from './cart.service';
 import { UserId } from '../decorators/user-id.decoreator';
+import { ReturnCartDto } from './dtos/returnCart.dto';
 
 @Roles(UserType.User, UserType.Admin)
 @Controller('cart')
@@ -21,7 +21,9 @@ export class CartController {
   async insertProductToCart(
     @Body() inserCart: InsertCartDto,
     @UserId() userId: number,
-  ): Promise<CartEntity> {
-    return this.cartService.insertProductToCart(inserCart, userId);
+  ): Promise<ReturnCartDto> {
+    return new ReturnCartDto(
+      await this.cartService.insertProductToCart(inserCart, userId),
+    );
   }
 }
